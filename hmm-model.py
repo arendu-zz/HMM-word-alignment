@@ -387,10 +387,9 @@ if __name__ == "__main__":
         print f
         #pdb.set_trace()
 
-'''
 writer = open(save_alignment_out, 'w')
 i = 0
-for aj in out_alignments:
+for aj in final_alignments:
     if aj == '###':
         i += 1
         w = 1
@@ -399,12 +398,3 @@ for aj in out_alignments:
             writer.write(str(i) + ' ' + str(aj) + ' ' + str(w) + '\n')
         w += 1
 writer.flush()
-writer.close()
-'''
-
-
-
-
-
-
-
