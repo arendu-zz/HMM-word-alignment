@@ -362,7 +362,7 @@ if __name__ == "__main__":
         trelis_split.append(t)
 
     #SEE TODO in get_possible_states function.
-    for i in range(5):
+    for i in range(10):
 
         accu_alpha = 0.0
         accu_mu = 0.0
@@ -379,22 +379,20 @@ if __name__ == "__main__":
             posterior_emission_accumilation = accumilate(posterior_emission_accumilation, posterior_emission)
             [out_alignments, out_emissions] = zip(*max_bt)
             final_alignments = final_alignments + list(out_alignments)
-            print 'iteration', i, 'sentence', idx, 'accumilated_alpha', accu_alpha
+            #print 'iteration', i, 'sentence', idx, 'accumilated_alpha', accu_alpha
         update_translation_mle(posterior_emission_accumilation)
         update_alignment_mle(posterior_transitions_accumilation)
-        print accu_mu, accu_alpha
-        print out_emissions
-        print f
+        print 'iteration',i,'mu',accu_mu,'alpha', accu_alpha
         #pdb.set_trace()
-
-writer = open(save_alignment_out, 'w')
-i = 0
-for aj in final_alignments:
-    if aj == '###':
-        i += 1
-        w = 1
-    else:
-        if aj != 0:
-            writer.write(str(i) + ' ' + str(aj) + ' ' + str(w) + '\n')
-        w += 1
-writer.flush()
+        writer = open(save_alignment_out+'-'+str(i), 'w')
+        ia = 0
+        for aj in final_alignments:
+            if aj == '###':
+                ia += 1
+                w = 1
+            else:
+                if aj != 0:
+                    writer.write(str(ia) + ' ' + str(aj) + ' ' + str(w) + '\n')
+                w += 1
+        writer.flush()
+        writer.close()
