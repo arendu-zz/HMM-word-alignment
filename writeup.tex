@@ -10,7 +10,8 @@
     clean and doc py scripts
     charts and tables
     Makefile to package and publish
-
+    make and push a bibtex
+    corpus examples
 \end{comment}
 
 \title{Excursions in Word Alignment: Model Initialization and Symmetrization}
@@ -96,15 +97,30 @@ Because many-to-one alignments are restricted to the F $\rightarrow$ E direction
 \label{fig:etof}
 \end{figure}
 
-A simple approach to this task is described in \cite{koehn}, which we implement in ({\tt merge.py}). Contrary to expectation, symmetrizing forward and reverse alignments did not improve our measured alignment performance. This result furthers our skeptecism of the comprehensiveness and utility of the AER metric, as we discuss further in \ref{aer}.
+A simple approach to this task is described in \cite{koehn}, which we implement in ({\tt merge.py}). Contrary to expectation, symmetrizing forward and reverse alignments in this way did not improve our measured alignment performance. However, simply taking the intersection of the forward and reverse alignments did improve our score. This result furthers our skeptecism of the comprehensiveness and utility of the AER metric, as we discuss further in \ref{aer}.
 % more detail about this?
 
-Table \ref{tbl:sym} shows compares AER for the symmetrized and unsymmetrized output of our experimental runs.
+Table \ref{tbl:sym} shows compares AER for the fully symmetrized, intersected, and unsymmetrized output of our experimental runs.
 
 \section{AER and the Hansards alignments}
 \label{aer}
 
 \section{Summary of results and analysis}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{r|cccc}
+    & $p(f|e)$ & $p(e|f)$ & sym & int\\ \hline
+    Model 1 & & & & \\
+    % diff inits?
+    Model 2 & & & & \\
+    HMM - min iter & & & & \\
+    HMM - max iter & & & & \\
+
+\end{tabular}
+\end{center}
+\end{table}
+
 
 ablation table
 

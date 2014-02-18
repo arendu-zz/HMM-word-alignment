@@ -5,6 +5,7 @@ WARNING this file is in a state of flux and it's very important to consider the 
 
 
 """
+import sys
 
 num = 1000
 
@@ -30,7 +31,7 @@ def final(a, m, n, u):
 
 def symmetrize(fwd, rev):
     a = fwd.intersection(rev)
-    #return a
+    return a ### !!!
     u = fwd.union(r)
     neighbors= ((-1,-1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
     new = set([])
@@ -51,8 +52,9 @@ def symmetrize(fwd, rev):
 
 
 if __name__ == "__main__":
-    fwd = [set(l) for l in flip(load_alignments("f"))]
-    rev = [set(l) for l in load_alignments("r")]
+    ffile, rfile = sys.argv[1], sys.argv[2]
+    fwd = [set(l) for l in flip(load_alignments(ffile))]
+    rev = [set(l) for l in load_alignments(rfile)]
     for i in range(len(fwd)):
         f, r = fwd[i], rev[i]
         a = symmetrize(f, r)
