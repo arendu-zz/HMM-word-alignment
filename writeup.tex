@@ -51,7 +51,7 @@ and redefine the initial translation probabilities as
 \[
     p(f|e) = \frac{\text{er}(f,e)}{\sum_{i=1}^{|S_f|} \text{er}(f, {S_f}_i)}
 \]
-The smoothing term $\delta$ TODO. Results are shown in Table \ref{tbl:ed_dist}.
+The smoothing term $\delta$ was set to 1. Larger $\delta$ approximated the more uniform initialization, while a small $\delta$ could potential prevent source-token pairs form being translations of eachother. Results are shown in Table \ref{tbl:ed_dist}.
  %todo more explain
 % TODO cite msr paper as inspiration?
 
@@ -75,9 +75,7 @@ To test our intuition that local context ought to matter for alignment, we imple
 
 {\tt hmm-model.py}
 
-In order to make the runtime of these experiments more manageable, we implemented a heuristic pruning TODO
-
-% TODO cite inspiration paper
+In order to make the runtime of these experiments more manageable, we implemented a heuristic pruning of possible states for a each target token. The unpruned HMM latice includes all possible jumps from any word in the source. This makes the lattice beam width very large for longer sentences. To speed up computation we employed a pruning heuristic. Sentences that are less that 5 tokesn in length are left un pruned. That is for each token in the target sentence, any of the 5 tokens in the source could be a state. For source sentences of lenght 5 to 15, the possible states that could generate a target token was reduced by 50\%. For each token in the target sentence, all possible states were sorted based on their initial translation probabilities. Only the top 50\% of these states were used as possile states in the HMM lattice. For longer sentences (length 15 to 35) only 30\% were used as possible states. For even longer sentences only top 10\% was used as possible states. This method of state space pruning is commonly used in many HMM based models. For example, for POS tagging, the possible tags applicable for a word are pre-selected based on the word. 
 
 Figure \ref{fig:hmm_learning_curve} shows the improvement in the HMM aligner's performance over several iterations.
 

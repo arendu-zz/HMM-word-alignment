@@ -47,7 +47,7 @@ def symmetrize(fwd, rev):
                         if (not ee in [j for (j, k) in a] or not ff in [k for (j, k) in a]) and (ee, ff) in u:
                             new.add((ee, ff))
         a = a.union(new)
-    a = final(a, m, n, u)
+    #a = final(a, m, n, u)
     return a
 
 
