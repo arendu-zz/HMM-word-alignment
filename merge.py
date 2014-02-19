@@ -7,14 +7,18 @@ WARNING this file is in a state of flux and it's very important to consider the 
 """
 import sys
 
-num = 1000
-
+num = 100000 # careful ...
 def load_alignments(fn):
-    f = open(fn).read().splitlines()
-    l = [[int(n) for n in e.split()] for e in f]
-    m = [[s,e,f] for [s,e,f] in l if s <= num] # leq because of first line fencepost issue
-    z = [[(u-1, v-1) for [s, u, v] in m if s == i] for i in range(num+1)][1:]
+    f = open(fn)
+    z = [[]]
+    for line in f:
+        s, e, f = [int(n) for n in line.split()]
+        if len(z) < s:
+            z.append([])
+        z[s-1].append((e-1,f-1))
     return z
+
+
 
 def flip(l):
     return [[(v, u) for (u,v) in m] for m in l]
@@ -54,8 +58,11 @@ def symmetrize(fwd, rev):
 if __name__ == "__main__":
     ffile, rfile = sys.argv[1], sys.argv[2]
     fwd = [set(l) for l in flip(load_alignments(ffile))]
+    sys.stderr.write("fwd loaded")
     rev = [set(l) for l in load_alignments(rfile)]
+    sys.stderr.write("rev loaded")
     for i in range(len(fwd)):
+        if (i % 1000 == 0): sys.stderr.write(".")
         f, r = fwd[i], rev[i]
         a = symmetrize(f, r)
         a = list(a)
